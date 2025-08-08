@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-ingress-gitops
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/fpultera/lab-istio.git
+    targetRevision: HEAD # O el branch o tag que quieras, por ejemplo 'main'
+    path: infra/nginx-ingress.yaml # <--- Ruta al archivo dentro del repo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-nginx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
