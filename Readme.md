@@ -97,10 +97,18 @@ istio-ingressgateway   LoadBalancer   10.110.47.229   10.110.47.229   15021:3237
 
 ```bash
 curl -H "x-version-app: v2" hola-mundo-final.local
-# Devuelve Hola Mundo v2
+<html>
+  <body>
+    <h1>Hola Mundo v2 desde Istio 🚀</h1>
+  </body>
+</html>
 
 curl -H "x-version-app: v1" hola-mundo-final.local
-# Devuelve Hola Mundo v1
+<html>
+  <body>
+    <h1>Hola Mundo v1 desde Istio 🚀</h1>
+  </body>
+</html>
 ```
 
 - Balanceo por Peso si aplicaste el yaml hola-mundo-final-weight.yaml
