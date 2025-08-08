@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/fpultera/lab-istio.git
     targetRevision: main
-    path: manifests/hola-mundo-istio
+    path: manifests/hola-mundo-istio-v2
   destination:
     server: https://kubernetes.default.svc
     namespace: hola-mundo-v2
