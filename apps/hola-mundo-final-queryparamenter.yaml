@@ -11,7 +11,7 @@ spec:
     path: manifests/hola-mundo-final-queryparameter
   destination:
     server: https://kubernetes.default.svc
-    namespace: manifests/hola-mundo-final-queryparameter
+    namespace: hola-mundo-final-queryparameter
   syncPolicy:
     automated:
       prune: true
