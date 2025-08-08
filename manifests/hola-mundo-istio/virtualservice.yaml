@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: hola-mundo-vs
-  namespace: default
+  namespace: hola-mundo
 spec:
   hosts:
     - "*"

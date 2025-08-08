@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: hola-mundo-html
-  namespace: default
+  namespace: hola-mundo
 data:
   index.html: |
     <html>

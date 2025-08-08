@@ -11,7 +11,7 @@ spec:
     path: manifests/hola-mundo-istio
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: hola-mundo
   syncPolicy:
     automated:
       prune: true
