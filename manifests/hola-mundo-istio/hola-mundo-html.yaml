@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hola-mundo-html
+  namespace: default
+data:
+  index.html: |
+    <html>
+      <body>
+        <h1>Hola Mundo desde Istio 🚀</h1>
+      </body>
+    </html>
