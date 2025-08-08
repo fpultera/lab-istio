@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hola-mundo-final
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/fpultera/lab-istio.git
+    targetRevision: main
+    path: manifests/hola-mundo-final
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: hola-mundo-final-headers
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

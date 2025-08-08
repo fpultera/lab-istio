@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: hola-mundo-final-gateway
-  namespace: hola-mundo-final
+  namespace: hola-mundo-final-headers
 spec:
   selector:
     istio: ingressgateway # Usar el ingressgateway por defecto
@@ -18,7 +18,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: hola-mundo-final
-  namespace: istio-system
+  namespace: hola-mundo-final-headers
 spec:
   hosts:
     - hola-mundo-final.local
