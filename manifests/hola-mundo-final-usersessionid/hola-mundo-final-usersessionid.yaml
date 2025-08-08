@@ -12,7 +12,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - hola-mundo.local
+    - hola-mundo-final-queryparameter
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -21,7 +21,7 @@ metadata:
   namespace: hola-mundo-final-usersessionid
 spec:
   hosts:
-  - hola-mundo.local
+  - hola-mundo-final-queryparameter
   gateways:
   - hola-mundo-user-session-id-gateway
   http:
