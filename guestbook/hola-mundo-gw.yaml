@@ -13,18 +13,16 @@ spec:
   
   source:
     # URL del repositorio Git donde se encuentra el manifiesto
-    # del VirtualService.
     repoURL: https://github.com/fpultera/lab-istio.git
     targetRevision: HEAD
-    # La ruta dentro del repositorio donde se encuentra el VirtualService.
-    # Debes asegurarte de colocar el archivo YAML en esta ruta.
+    # La ruta ahora apunta directamente al archivo "hola-mundo-vs.yaml".
     path: guestbook/chart/gateway/hola-mundo-vs.yaml
     
   destination:
     # El clúster de Kubernetes donde se desplegará el VirtualService
     server: https://kubernetes.default.svc
     # El namespace de destino para el VirtualService.
-    # En este caso, el manifiesto se aplicará en el namespace 'default'.
+    # En este caso, se aplicará en el namespace 'default'.
     namespace: default
     
   syncPolicy:
