@@ -1,0 +1,50 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: hola-mundo-user-session-id-gateway
+  namespace: hola-mundo-final-usersessionid
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - hola-mundo.local
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hola-mundo-final-usersessionid
+  namespace: hola-mundo-final-usersessionid
+spec:
+  hosts:
+  - hola-mundo.local
+  gateways:
+  - hola-mundo-user-session-id-gateway
+  http:
+  - match:
+    - headers:
+        user-session-id:
+          exact: "v1"
+    route:
+    - destination:
+        host: hola-mundo.hola-mundo.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - headers:
+        user-session-id:
+          exact: "v2"
+    route:
+    - destination:
+        host: hola-mundo-v2.hola-mundo-v2.svc.cluster.local
+        port:
+          number: 80
+  - route:  # fallback
+    - destination:
+        host: hola-mundo.hola-mundo.svc.cluster.local
+        port:
+          number: 80
