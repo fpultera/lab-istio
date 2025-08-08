@@ -13,7 +13,7 @@ spec:
   
   source:
     # URL del repositorio Git donde se encuentran los manifiestos de la app
-    repoURL: https://github.com-personal/fpultera/lab-istio.git
+    repoURL: https://github.com/fpultera/lab-istio.git
     targetRevision: HEAD
     # La ruta dentro del repositorio donde están los archivos YAML de la app
     path: guestbook/chart
