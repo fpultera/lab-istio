@@ -18,13 +18,13 @@ Este proyecto te guía para instalar Istio en Minikube usando ArgoCD, desplegar 
 
 ### 1. Instalar Istio con ArgoCD
 
-Abre una terminal y ejecuta:
+- Abre una terminal y ejecuta:
 
 ```bash
 chmod +x scripts/argocd-install.sh
 sh scripts/argocd-install.sh lab-istio
 ```
-Al finalizar verás un mensaje con la contraseña del usuario admin para ArgoCD, por ejemplo:
+- Al finalizar verás un mensaje con la contraseña del usuario admin para ArgoCD, por ejemplo:
 
 ```bash
 --------------------------------------------------------
@@ -36,7 +36,7 @@ Guarda esta contraseña, ya que la necesitarás para iniciar sesión.
 
 ### 2. Levantar el túnel de Minikube para Istio
 
-Abre una nueva terminal (no cierres la anterior) y ejecuta:
+- Abre una nueva terminal (no cierres la anterior) y ejecuta:
 
 ```bash
 minikube tunnel -p lab-istio
@@ -48,7 +48,7 @@ minikube tunnel -p lab-istio
 kubectl apply -f infra/istio.yaml
 ```
 
-Luego verifica en la UI de ArgoCD que las aplicaciones de Istio estén sincronizadas.
+- Luego verifica en la UI de ArgoCD que las aplicaciones de Istio estén sincronizadas.
 
 ### 4. Desplegar aplicaciones de ejemplo
 
@@ -59,13 +59,13 @@ kubectl apply -f apps/hola-mundo-v2.yaml
 
 ### 5. Probar balanceo con Istio
 
-Para balanceo basado en peso:
+- Para balanceo basado en peso:
 
 ```bash
 kubectl apply -f apps/hola-mundo-final-weight.yaml
 ```
 
-Para balanceo basado en headers HTTP:
+- Para balanceo basado en headers HTTP:
 
 ```bash
 kubectl apply -f apps/hola-mundo-final-headers.yaml
@@ -73,13 +73,13 @@ kubectl apply -f apps/hola-mundo-final-headers.yaml
 
 ### 6. Obtener la IP externa del istio-ingressgateway
 
-Ejecuta:
+- Ejecuta:
 
 ```bash
 kubectl get svc -n istio-system
 ```
 
-Busca la IP en la columna EXTERNAL-IP para el servicio istio-ingressgateway. Ejemplo:
+- Busca la IP en la columna EXTERNAL-IP para el servicio istio-ingressgateway. Ejemplo:
 
 ```bash
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                      AGE
@@ -93,7 +93,7 @@ istio-ingressgateway   LoadBalancer   10.110.47.229   10.110.47.229   15021:3237
 ```
 
 ### 8. Pruebas con curl
-Balanceo por Headers si aplicaste el yaml hola-mundo-final-headers.yaml
+- Balanceo por Headers si aplicaste el yaml hola-mundo-final-headers.yaml
 
 ```bash
 curl -H "x-version-app: v2" hola-mundo-final.local
@@ -103,14 +103,14 @@ curl -H "x-version-app: v1" hola-mundo-final.local
 # Devuelve Hola Mundo v1
 ```
 
-Balanceo por Peso si aplicaste el yaml hola-mundo-final-weight.yaml
+- Balanceo por Peso si aplicaste el yaml hola-mundo-final-weight.yaml
 
 ```bash
 curl hola-mundo-final.local
 # Respuestas alternadas entre Hola Mundo v1 y v2
 ```
 
-Ejemplo de respuesta:
+- Ejemplo de respuesta:
 
 ```bash
 <html>
@@ -126,8 +126,11 @@ Ejemplo de respuesta:
 </html>
 ```
 
-Notas importantes
-. No cierres las terminales donde ejecutaste minikube tunnel ni el script de instalación, ya que mantienen servicios activos.
-. Guarda la contraseña del usuario admin para acceder a ArgoCD UI.
-. Para acceder a ArgoCD UI, abre un navegador en http://localhost:8080 (o el puerto configurado).
+Notas importantes:
+
+- No cierres las terminales donde ejecutaste minikube tunnel ni el script de instalación, ya que mantienen servicios activos.
+
+- Guarda la contraseña del usuario admin para acceder a ArgoCD UI.
+
+- Para acceder a ArgoCD UI, abre un navegador en http://localhost:8080 (o el puerto configurado).
 
