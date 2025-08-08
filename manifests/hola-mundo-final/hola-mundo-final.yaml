@@ -1,0 +1,38 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: hola-mundo-final-gateway
+  namespace: hola-mundo-final
+spec:
+  selector:
+    istio: ingressgateway # Usar el ingressgateway por defecto
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - hola-mundo-final.local
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hola-mundo-final
+  namespace: hola-mundo-final
+spec:
+  hosts:
+    - hola-mundo-final.local
+  gateways:
+    - hola-mundo-final-gateway
+  http:
+    - route:
+        - destination:
+            host: hola-mundo.hola-mundo.svc.cluster.local
+            port:
+              number: 80
+          weight: 50
+        - destination:
+            host: hola-mundo-v2.hola-mundo-v2.svc.cluster.local
+            port:
+              number: 80
+          weight: 50
