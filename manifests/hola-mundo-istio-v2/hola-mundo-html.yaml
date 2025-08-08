@@ -7,6 +7,6 @@ data:
   index.html: |
     <html>
       <body>
-        <h1>Hola Mundo desde Istio 🚀</h1>
+        <h1>Hola Mundo desde Istio v2 🚀</h1>
       </body>
     </html>
