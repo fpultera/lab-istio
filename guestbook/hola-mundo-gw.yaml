@@ -18,7 +18,7 @@ spec:
     targetRevision: HEAD
     # La ruta dentro del repositorio donde se encuentra el VirtualService.
     # Debes asegurarte de colocar el archivo YAML en esta ruta.
-    path: guestbook/hola-mundo-vs.yaml
+    path: guestbook/chart/gateway/hola-mundo-vs.yaml
     
   destination:
     # El clúster de Kubernetes donde se desplegará el VirtualService
