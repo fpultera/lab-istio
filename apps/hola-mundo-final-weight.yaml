@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/fpultera/lab-istio.git
     targetRevision: main
-    path: manifests/hola-mundo-final
+    path: manifests/hola-mundo-final-weight
   destination:
     server: https://kubernetes.default.svc
     namespace: hola-mundo-final-weight
