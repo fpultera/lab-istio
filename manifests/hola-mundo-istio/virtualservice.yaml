@@ -5,7 +5,7 @@ metadata:
   namespace: hola-mundo
 spec:
   hosts:
-    - "*"
+    - "hola.local"
   gateways:
     - hola-mundo-gateway
   http:
