@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hola-mundo-v2-vs
+  namespace: hola-mundo-v2
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - hola-mundo-gateway-v2
+  http:
+    - route:
+        - destination:
+            host: hola-mundo0-v2
+            port:
+              number: 80
