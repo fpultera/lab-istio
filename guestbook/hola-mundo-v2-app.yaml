@@ -1,11 +1,11 @@
 # Este manifiesto crea una nueva aplicación en Argo CD para desplegar
-# tu servicio "hola-mundo-v1" usando los manifiestos que creaste.
+# tu servicio "hola-mundo-v2" usando los manifiestos que creaste.
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   # Nombre de la aplicación en Argo CD
-  name: hola-mundo-v1-app
+  name: hola-mundo-v2-app
   namespace: argocd
 spec:
   # El proyecto de Argo CD al que pertenece esta aplicación
@@ -16,13 +16,15 @@ spec:
     repoURL: https://github.com/fpultera/lab-istio.git
     targetRevision: HEAD
     # La ruta dentro del repositorio donde están los archivos YAML de la app
-    path: guestbook/chart/hola-mundo-v1    
+    # Se asume que el manifiesto para v2 está en una ruta diferente.
+    path: guestbook/chart/hola-mundo-v2
+    
   destination:
     # La URL del clúster de Kubernetes, por defecto
     server: https://kubernetes.default.svc
-    # El namespace donde se desplegarán los recursos.
-    # En este caso, el namespace será creado por la aplicación misma.
-    namespace: hola-mundo-v1
+    # El namespace donde se desplegarán los recursos de la v2.
+    # Es una buena práctica separar las versiones en namespaces diferentes.
+    namespace: hola-mundo-v2
     
   syncPolicy:
     automated:
