@@ -134,6 +134,33 @@ curl hola-mundo-final.local
 </html>
 ```
 
+- Balanceo por Peso si aplicaste el yaml hola-mundo-final-queryparameter.yaml
+
+```bash
+curl "http://hola-mundo-final.local/?Id=1234"
+# Respuestas alternadas entre Hola Mundo
+curl "http://hola-mundo-final.local/?Id=5678"
+# Respuestas alternadas entre Hola Mundo v2
+```
+
+- Ejemplo de respuesta:
+
+```bash
+❯ curl "http://hola-mundo-final.local/?Id=1234"
+<html>
+  <body>
+    <h1>Hola Mundo desde Istio 🚀</h1>
+  </body>
+</html>
+
+❯ curl "http://hola-mundo-final.local/?Id=5678"
+<html>
+  <body>
+    <h1>Hola Mundo v2 desde Istio 🚀</h1>
+  </body>
+</html>
+```
+
 Notas importantes:
 
 - No cierres las terminales donde ejecutaste minikube tunnel ni el script de instalación, ya que mantienen servicios activos.
