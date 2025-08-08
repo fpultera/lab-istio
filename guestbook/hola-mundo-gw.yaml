@@ -17,8 +17,8 @@ spec:
     repoURL: https://github.com/fpultera/lab-istio.git
     targetRevision: HEAD
     # La ruta dentro del repositorio donde se encuentra el VirtualService.
-    # Ahora apunta directamente al archivo "hola-mundo-vs.yaml".
-    path: guestbook/hola-mundo-vs.yaml
+    # Debes asegurarte de colocar el archivo YAML en esta ruta.
+    path: istio-config
     
   destination:
     # El clúster de Kubernetes donde se desplegará el VirtualService
