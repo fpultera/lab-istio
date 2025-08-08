@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/fpultera/lab-istio.git
     targetRevision: HEAD # O el branch o tag que quieras, por ejemplo 'main'
-    path: infra/nginx-ingress.yaml # <--- Ruta al archivo dentro del repo
+    path: infra/ # <--- Ruta al archivo dentro del repo
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
