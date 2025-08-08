@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # Nombre de tu aplicación en Argo CD
+  name: istio-ingress-gateway
+  namespace: argocd
+spec:
+  # El proyecto de Argo CD al que pertenece esta aplicación
+  project: default
+  
+  source:
+    # URL del repositorio de charts de Istio
+    repoURL: https://istio-release.storage.googleapis.com/charts
+    # Nombre del chart que vamos a instalar (el Ingress Gateway)
+    chart: gateway
+    # La versión del chart de Istio. 
+    targetRevision: "1.22.0"
+  
+  destination:
+    # La URL del clúster de Kubernetes, por defecto.
+    server: https://kubernetes.default.svc
+    # El namespace donde se instalará el Ingress Gateway.
+    namespace: istio-ingress
+    
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # Esta opción es crucial: Argo CD creará el namespace si no existe.
+      - CreateNamespace=true
