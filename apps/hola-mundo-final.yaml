@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: hola-mundo-final
+  name: hola-mundo-final-weight
   namespace: argocd
 spec:
   project: default
@@ -11,7 +11,7 @@ spec:
     path: manifests/hola-mundo-final
   destination:
     server: https://kubernetes.default.svc
-    namespace: hola-mundo-final
+    namespace: hola-mundo-final-weight
   syncPolicy:
     automated:
       prune: true
