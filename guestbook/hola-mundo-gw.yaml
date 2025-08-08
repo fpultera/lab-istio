@@ -5,7 +5,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   # Nombre de la aplicación en Argo CD
-  name: istio-traffic-splitter-app
+  name: hola-mundo-splitter-app
   namespace: argocd
 spec:
   # El proyecto de Argo CD al que pertenece esta aplicación
@@ -18,7 +18,7 @@ spec:
     targetRevision: HEAD
     # La ruta dentro del repositorio donde se encuentra el VirtualService.
     # Debes asegurarte de colocar el archivo YAML en esta ruta.
-    path: istio-config
+    path: guestbook/hola-mundo-vs.yaml
     
   destination:
     # El clúster de Kubernetes donde se desplegará el VirtualService
