@@ -1,0 +1,95 @@
+# --- Namespace para la aplicación "hola-mundo-v1" ---
+# Este recurso asegura que el namespace "hola-mundo-v1" exista antes de
+# crear los demás recursos de la aplicación.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hola-mundo-v1
+---
+# --- Deployment de la aplicación "hola-mundo-v1" ---
+# Un Deployment define el estado deseado para los Pods de la aplicación.
+# En este caso, queremos 3 réplicas del contenedor "hello-world"
+# en el namespace "hola-mundo-v1".
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hola-mundo-v1
+  namespace: hola-mundo-v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hola-mundo
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: hola-mundo
+        version: v1
+    spec:
+      containers:
+        - name: hola-mundo
+          image: gcr.io/google-samples/hello-app:1.0
+          ports:
+            - containerPort: 8080
+---
+# --- Service de la aplicación "hola-mundo-v1" ---
+# Un Service expone la aplicación a otros componentes del clúster.
+# El Service selecciona los Pods con las etiquetas "app: hola-mundo".
+# El tráfico será enrutado a través de este Service en el namespace "hola-mundo-v1".
+apiVersion: v1
+kind: Service
+metadata:
+  name: hola-mundo
+  namespace: hola-mundo-v1
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: hola-mundo
+---
+# --- Istio Gateway para la aplicación "hola-mundo-v1" ---
+# El Gateway define un puerto y un host que Istio debe escuchar.
+# En este caso, el Gateway se adjunta al Istio Ingress Gateway
+# y escucha en el puerto 80 para el host "hola-mundo.info".
+# El Gateway se ha movido al mismo namespace de la aplicación.
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: hola-mundo-gateway
+  namespace: hola-mundo-v1
+spec:
+  selector:
+    # Se selecciona el ingress gateway de Istio
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "hola-mundo.info"
+---
+# --- Istio VirtualService para la aplicación "hola-mundo-v1" ---
+# El VirtualService enruta el tráfico del Gateway al Service de la app.
+# El tráfico que llega para "hola-mundo.info" se envía al Service "hola-mundo"
+# en el puerto 80.
+# El VirtualService también se ha movido al namespace "hola-mundo-v1".
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hola-mundo-virtualservice
+  namespace: hola-mundo-v1
+spec:
+  hosts:
+    - "hola-mundo.info"
+  gateways:
+    - hola-mundo-gateway
+  http:
+    - route:
+        - destination:
+            host: hola-mundo
+            port:
+              number: 80
