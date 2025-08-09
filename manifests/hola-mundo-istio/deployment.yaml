@@ -13,7 +13,6 @@ spec:
       labels:
         app: hola-mundo
     spec:
-      serviceAccountName: hola-mundo-sa  
       containers:
         - name: hola-mundo
           image: nginx
