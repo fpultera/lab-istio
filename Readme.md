@@ -173,7 +173,7 @@ cd /mnt/secrets-store/secret/data/hola-mundo-v2
 cat config
 ```
 
-## Si esntras con bash podes instalar el jq.
+## Si entras con bash podes instalar el jq.
 
 ```bash
 apt pdate
