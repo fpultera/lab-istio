@@ -159,6 +159,13 @@ vault kv put secret/hola-mundo/config url=asd.local
 vault kv put secret/hola-mundo-v2/config url=asddgf.local
 ```
 
+### 9. Desplegar aplicaciones de ejemplo
+
+```bash
+kubectl apply -f apps/hola-mundo.yaml
+kubectl apply -f apps/hola-mundo-v2.yaml
+```
+
 ## como ver el secret:
 
 ```bash
@@ -181,13 +188,6 @@ apt update
 apt install jq -y
 
 cat /mnt/secrets-store/secret/data/hola-mundo-v2/config |jq .
-```
-
-### 9. Desplegar aplicaciones de ejemplo
-
-```bash
-kubectl apply -f apps/hola-mundo.yaml
-kubectl apply -f apps/hola-mundo-v2.yaml
 ```
 
 ### 10. Probar balanceo con Istio
