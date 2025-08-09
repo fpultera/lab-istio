@@ -1,4 +1,4 @@
-# Istio Lab with ArgoCD and Hola Mundo Example
+# Ejemplo de laboratorio de Istio con ArgoCD y Hola Mundo
 
 Este proyecto te guía para instalar Istio en Minikube usando ArgoCD, desplegar aplicaciones de ejemplo y probar el balanceo de tráfico con Istio.
 
