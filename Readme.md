@@ -99,19 +99,19 @@ vault login root
 vault auth enable kubernetes
 ```
 
-#### Obtener el token
+- Obtener el token
 
 ```bash
 export VAULT_SA_TOKEN=$(kubectl get secret vault-token -n vault -o jsonpath="{.data.token}" | base64 --decode)
 ```
 
-#### Obtener el certificado CA del ServiceAccount
+- Obtener el certificado CA del ServiceAccount
 
 ```bash
 export VAULT_CA_CERT=$(kubectl get secret vault-token -n vault -o jsonpath="{.data['ca\.crt']}" | base64 --decode)
 ```
 
-#### Configurar el backend
+- Configurar el backend
 
 ```bash
 vault write auth/kubernetes/config \
@@ -120,7 +120,7 @@ vault write auth/kubernetes/config \
     kubernetes_ca_cert="$VAULT_CA_CERT"
 ```
 
-#### Crear una política de Vault para hola-mundo y hola-mundo-v2:
+- Crear una política de Vault para hola-mundo y hola-mundo-v2:
 
 ```bash
 vault policy write my-policy-hola-mundo - <<EOF
@@ -136,7 +136,7 @@ path "secret/data/hola-mundo-v2/config" {
 EOF
 ```
 
-#### Crear y vincular el rol de Kubernetes para hola-mundo y hola-mundo-v2:
+- Crear y vincular el rol de Kubernetes para hola-mundo y hola-mundo-v2:
 
 ```bash
 vault write auth/kubernetes/role/my-role-hola-mundo \
@@ -152,7 +152,7 @@ vault write auth/kubernetes/role/my-role-hola-mundo-v2 \
     ttl=3000h
 ```
 
-#### crear un vault secret:
+- crear un vault secret:
 
 ```bash
 vault kv put secret/hola-mundo/config url=asd.local
@@ -166,7 +166,7 @@ kubectl apply -f apps/hola-mundo.yaml
 kubectl apply -f apps/hola-mundo-v2.yaml
 ```
 
-#### como ver el secret:
+- como ver el secret:
 
 ```bash
 hola-mundo
@@ -180,7 +180,7 @@ cd /mnt/secrets-store/secret/data/hola-mundo-v2
 cat config
 ```
 
-#### Si entras con bash podes instalar el jq.
+- Si entras con bash podes instalar el jq.
 
 ```bash
 apt update
