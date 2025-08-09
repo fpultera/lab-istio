@@ -1,0 +1,13 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: vault-hola-mundo
+  namespace: hola-mundo
+spec:
+  provider: vault
+  parameters:
+    vaultAddress: "http://vault.vault.svc.cluster.local:8200"
+    roleName: "my-role-hola-mundo"
+    objects: |
+      - objectName: "secret/data/hola-mundo/config"
+        secretPath: "secret/data/hola-mundo/config"
