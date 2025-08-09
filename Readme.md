@@ -191,19 +191,12 @@ cat /mnt/secrets-store/secret/data/hola-mundo-v2/config |jq .
 
 ### 10. Probar balanceo con Istio
 
-- Para balanceo basado en peso:
-
-```bash
-kubectl apply -f apps/hola-mundo-final-weight.yaml
-```
-
 - Para balanceo basado en headers HTTP:
 
 ```bash
 kubectl apply -f apps/hola-mundo-final-headers.yaml
 ```
 
-### 11. Pruebas con curl
 - Balanceo por Headers si aplicaste el yaml hola-mundo-final-headers.yaml
 
 ```bash
@@ -220,6 +213,12 @@ curl -H "x-version-app: v1" hola-mundo-final.local
     <h1>Hola Mundo v1 desde Istio 🚀</h1>
   </body>
 </html>
+```
+
+- Borrar el namespace hola-mundo-final-headers para limpiar el ingress.
+
+```bash
+kubectl delete ns hola-mundo-final-headers
 ```
 
 - Balanceo por Peso si aplicaste el yaml hola-mundo-final-weight.yaml
@@ -243,6 +242,12 @@ curl hola-mundo-final.local
     <h1>Hola Mundo desde Istio 🚀</h1>
   </body>
 </html>
+```
+
+- Borrar el namespace hola-mundo-final-weight para limpiar el ingress.
+
+```bash
+kubectl delete ns hola-mundo-final-weight
 ```
 
 - Balanceo por Peso si aplicaste el yaml hola-mundo-final-queryparameter.yaml
@@ -270,6 +275,12 @@ curl "http://hola-mundo-final.local/?Id=5678"
     <h1>Hola Mundo v2 desde Istio 🚀</h1>
   </body>
 </html>
+```
+
+- Borrar el namespace hola-mundo-final-queryparameter para limpiar el ingress.
+
+```bash
+kubectl delete ns hola-mundo-final-queryparameter
 ```
 
 - Balanceo por User Parameter ID si aplicaste el yaml hola-mundo-final-userparameterid.yaml
@@ -301,7 +312,11 @@ curl -H "user-session-id: v2" "http://hola-mundo-final.local/"
 </html>
 ```
 
-Una ves 
+- Borrar el namespace hola-mundo-final-userparameterid para limpiar el ingress.
+
+```bash
+kubectl delete ns hola-mundo-final-userparameterid
+```
 
 Notas importantes:
 
