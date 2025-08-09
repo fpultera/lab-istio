@@ -183,7 +183,6 @@ cat config
 ## Si entras con bash podes instalar el jq.
 
 ```bash
-apt pdate
 apt update
 apt install jq -y
 
