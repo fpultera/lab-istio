@@ -152,6 +152,15 @@ token/         token         auth_token_bf06b7b3         token based credentials
 >               ttl=24h
 ```
 
+### 9e. Adicional en el pod de vul correr esto:
+
+```bash
+vault write auth/kubernetes/config \
+  token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+  kubernetes_host="https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT" \
+  kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+```
+
 ### 10. Pruebas con curl
 - Balanceo por Headers si aplicaste el yaml hola-mundo-final-headers.yaml
 
