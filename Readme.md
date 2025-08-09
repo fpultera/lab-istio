@@ -50,6 +50,122 @@ kubectl apply -f infra/istio.yaml
 
 - Luego verifica en la UI de ArgoCD que las aplicaciones de Istio estén sincronizadas.
 
+- Si alguna app de isitio no sincroniza, deletea el pod.
+
+### 4. Obtener la IP externa del istio-ingressgateway
+
+- Ejecuta:
+
+```bash
+kubectl get svc -n istio-system
+```
+
+- SI el tunnel no esta creado, el svc no va a levantar el cluster-ip
+
+### 5. Vault
+
+Para instalar vault en tu cluster de minikube, ejecuta:
+
+```bash
+❯ k apply -f apps/vault.yaml
+❯ k apply -f apps/vault-domain.yaml
+❯ k apply -f apps/vault-storage.yaml
+```
+
+### 6. Configurar /etc/hosts
+
+```bash
+10.110.47.29 hola-mundo-final.local vault.local
+
+```
+
+- Busca la IP en la columna EXTERNAL-IP para el servicio istio-ingressgateway. Ejemplo:
+
+```bash
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   10.110.47.229   10.110.47.229   15021:32375/TCP,80:31856/TCP,443:31773/TCP   3m21s
+```
+
+### 7. instala el cliente de vault en tu notebook local. Pacman, dpkg, apt, apk, lo que prefieras.
+
+```bash
+export VAULT_ADDR='http://vault.local'
+vault login root
+```
+
+### 8. Habilitar el método de autenticación (si no lo hiciste antes)
+
+```bash
+vault auth enable kubernetes
+```
+
+## Obtener el token
+
+```bash
+export VAULT_SA_TOKEN=$(kubectl get secret vault-token -n vault -o jsonpath="{.data.token}" | base64 --decode)
+```
+
+## Obtener el certificado CA del ServiceAccount
+
+```bash
+export VAULT_CA_CERT=$(kubectl get secret vault-token -n vault -o jsonpath="{.data['ca\.crt']}" | base64 --decode)
+```
+
+## Configurar el backend
+
+```bash
+vault write auth/kubernetes/config \
+    token_reviewer_jwt="$VAULT_SA_TOKEN" \
+    kubernetes_host="https://kubernetes.default.svc.cluster.local" \
+    kubernetes_ca_cert="$VAULT_CA_CERT"
+```
+
+## Crear una política de Vault para hola-mundo y hola-mundo-v2:
+
+```bash
+vault policy write my-policy-hola-mundo - <<EOF
+path "secret/data/hola-mundo/config" {
+  capabilities = ["read"]
+}
+EOF
+
+vault policy write my-policy-hola-mundo-v2 - <<EOF
+path "secret/data/hola-mundo-v2/config" {
+  capabilities = ["read"]
+}
+EOF
+```
+
+## Crear y vincular el rol de Kubernetes para hola-mundo y hola-mundo-v2:
+
+```bash
+vault write auth/kubernetes/role/my-role-hola-mundo \
+    bound_service_account_names=hola-mundo-sa \
+    bound_service_account_namespaces=hola-mundo \
+    policies=my-policy-hola-mundo \
+    ttl=3000h
+
+vault write auth/kubernetes/role/my-role-hola-mundo-v2 \
+    bound_service_account_names=hola-mundo-v2-sa \
+    bound_service_account_namespaces=hola-mundo-v2 \
+    policies=my-policy-hola-mundo-v2 \
+    ttl=3000h
+```
+
+## crear un vault secret:
+
+```bash
+vault kv put secret/hola-mundo/config url=asd.local
+```
+
+## como ver el secret:
+
+```bash
+kubectl exec -it <nombre-del-pod> -n <namespace> -- /bin/sh
+cd /mnt/secrets-store/secret/data/hola-mundo
+cat config
+```
+
 ### 4. Desplegar aplicaciones de ejemplo
 
 ```bash
@@ -70,80 +186,6 @@ kubectl apply -f apps/hola-mundo-final-weight.yaml
 ```bash
 kubectl apply -f apps/hola-mundo-final-headers.yaml
 ```
-
-### 6. Obtener la IP externa del istio-ingressgateway
-
-- Ejecuta:
-
-```bash
-kubectl get svc -n istio-system
-```
-
-- Busca la IP en la columna EXTERNAL-IP para el servicio istio-ingressgateway. Ejemplo:
-
-```bash
-NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   10.110.47.229   10.110.47.229   15021:32375/TCP,80:31856/TCP,443:31773/TCP   3m21s
-```
-
-### 7. Configurar /etc/hosts
-
-```bash
-10.110.47.29 hola-mundo-final.local
-
-```
-
-### 8. Vault
-
-Para instalar vault en tu cluster de minikube, ejecuta:
-
-```bash
-❯ k apply -f apps/vault.yaml
-❯ k apply -f apps/vault-domain.yaml
-```
-
-### 9. Configurar /etc/hosts
-
-```bash
-10.110.47.229 hola-mundo-final.local vault.local
-```
-
-### 9a. Ingresar al pod de vault
-
-```bash
-❯ k exec -it vault-0 -n vault -- sh
-```
-
-- Listar los metodos de auth
-
-```bash
-/ $ vault auth list
-Path      Type     Accessor               Description                Version
-----      ----     --------               -----------                -------
-token/    token    auth_token_bf06b7b3    token based credentials    n/a
-```
-
-### 9b. Ingresar al pod de vault
-
-- Habilitar Kubernetes
-
-```bash
-/ $ vault auth enable kubernetes
-Success! Enabled kubernetes auth method at: kubernetes/
-```
-
-### 9c. Listar nuevamente para chequear que este kubernetes habilitado.
-
-```bash
-/ $ vault auth list
-Path           Type          Accessor                    Description                Version
-----           ----          --------                    -----------                -------
-kubernetes/    kubernetes    auth_kubernetes_c49dcf0e    n/a                        n/a
-token/         token         auth_token_bf06b7b3         token based credentials    n/a
-```
-
-### 9d. Proximamente ;)
-
 
 ### 10. Pruebas con curl
 - Balanceo por Headers si aplicaste el yaml hola-mundo-final-headers.yaml
