@@ -13,6 +13,7 @@ spec:
       labels:
         app: hola-mundo
     spec:
+      serviceAccountName: hola-mundo-sa
       containers:
         - name: hola-mundo
           image: nginx
@@ -21,7 +22,16 @@ spec:
           volumeMounts:
             - name: html
               mountPath: /usr/share/nginx/html
+            - name: secrets-store-inline # <-- Añadir esto
+              mountPath: "/mnt/secrets-store" # El path donde se montarán los secretos
+              readOnly: true
       volumes:
         - name: html
           configMap:
             name: hola-mundo-html
+        - name: secrets-store-inline # <-- Añadir esto
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "vault-hola-mundo"

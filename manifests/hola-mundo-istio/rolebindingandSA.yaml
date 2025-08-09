@@ -1,0 +1,30 @@
+# vault-auth-setup.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hola-mundo-sa
+  namespace: hola-mundo
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: vault-access-role
+  namespace: hola-mundo
+rules:
+  - apiGroups: [""]
+    resources: ["serviceaccounts"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: vault-access-rolebinding
+  namespace: hola-mundo
+subjects:
+  - kind: ServiceAccount
+    name: hola-mundo-sa
+    namespace: hola-mundo
+roleRef:
+  kind: Role
+  name: vault-access-role
+  apiGroup: rbac.authorization.k8s.io
