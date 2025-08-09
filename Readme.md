@@ -142,24 +142,8 @@ kubernetes/    kubernetes    auth_kubernetes_c49dcf0e    n/a                    
 token/         token         auth_token_bf06b7b3         token based credentials    n/a
 ```
 
-### 9d. Crear politica de acceso
+### 9d. Proximamente ;)
 
-```bash
-/ $             vault write auth/kubernetes/role/my-role-hola-mundo \
->               bound_service_account_names=default \
->               bound_service_account_namespaces=hola-mundo \
->               policies=hola-mundo-policy \
->               ttl=24h
-```
-
-### 9e. Adicional en el pod de vul correr esto:
-
-```bash
-vault write auth/kubernetes/config \
-  token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
-  kubernetes_host="https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT" \
-  kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-```
 
 ### 10. Pruebas con curl
 - Balanceo por Headers si aplicaste el yaml hola-mundo-final-headers.yaml
