@@ -156,6 +156,7 @@ vault write auth/kubernetes/role/my-role-hola-mundo-v2 \
 
 ```bash
 vault kv put secret/hola-mundo/config url=asd.local
+vault kv put secret/hola-mundo-v2/config url=asddgf.local
 ```
 
 ## como ver el secret:
