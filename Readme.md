@@ -183,14 +183,14 @@ apt install jq -y
 cat /mnt/secrets-store/secret/data/hola-mundo-v2/config |jq .
 ```
 
-### 4. Desplegar aplicaciones de ejemplo
+### 9. Desplegar aplicaciones de ejemplo
 
 ```bash
 kubectl apply -f apps/hola-mundo.yaml
 kubectl apply -f apps/hola-mundo-v2.yaml
 ```
 
-### 5. Probar balanceo con Istio
+### 10. Probar balanceo con Istio
 
 - Para balanceo basado en peso:
 
@@ -204,7 +204,7 @@ kubectl apply -f apps/hola-mundo-final-weight.yaml
 kubectl apply -f apps/hola-mundo-final-headers.yaml
 ```
 
-### 10. Pruebas con curl
+### 11. Pruebas con curl
 - Balanceo por Headers si aplicaste el yaml hola-mundo-final-headers.yaml
 
 ```bash
