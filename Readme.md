@@ -14,9 +14,9 @@ Este proyecto te guía para instalar Istio en Minikube usando ArgoCD, desplegar 
 ---
 
 
-#### Instrucciones de instalación
+## Instrucciones de instalación
 
-##### 1. Instalar Istio con ArgoCD
+#### 1. Instalar Istio con ArgoCD
 
 - Abre una terminal y ejecuta:
 
@@ -34,7 +34,7 @@ Guarda esta contraseña, ya que la necesitarás para iniciar sesión.
 --------------------------------------------------------
 ```
 
-##### 2. Levantar el túnel de Minikube para Istio
+#### 2. Levantar el túnel de Minikube para Istio
 
 - Abre una nueva terminal (no cierres la anterior) y ejecuta:
 
@@ -42,7 +42,7 @@ Guarda esta contraseña, ya que la necesitarás para iniciar sesión.
 minikube tunnel -p lab-istio
 ```
 
-##### 3. Aplicar configuración de Istio
+#### 3. Aplicar configuración de Istio
 
 ```bash
 kubectl apply -f infra/istio.yaml
@@ -52,7 +52,7 @@ kubectl apply -f infra/istio.yaml
 
 - Si alguna app de isitio no sincroniza, deletea el pod.
 
-##### 4. Obtener la IP externa del istio-ingressgateway
+#### 4. Obtener la IP externa del istio-ingressgateway
 
 - Ejecuta:
 
@@ -62,7 +62,7 @@ kubectl get svc -n istio-system
 
 - SI el tunnel no esta creado, el svc no va a levantar el cluster-ip
 
-##### 5. Vault
+#### 5. Vault
 
 Para instalar vault en tu cluster de minikube, ejecuta:
 
@@ -72,7 +72,7 @@ Para instalar vault en tu cluster de minikube, ejecuta:
 ❯ kubectl apply -f apps/vault-storage.yaml
 ```
 
-##### 6. Configurar /etc/hosts
+#### 6. Configurar /etc/hosts
 
 ```bash
 10.110.47.29 hola-mundo-final.local vault.local
@@ -86,14 +86,14 @@ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)   
 istio-ingressgateway   LoadBalancer   10.110.47.229   10.110.47.229   15021:32375/TCP,80:31856/TCP,443:31773/TCP   3m21s
 ```
 
-##### 7. instala el cliente de vault en tu notebookubectllocal. Pacman, dpkg, apt, apk, lo que prefieras.
+#### 7. instala el cliente de vault en tu notebookubectllocal. Pacman, dpkg, apt, apk, lo que prefieras.
 
 ```bash
 export VAULT_ADDR='http://vault.local'
 vault login root
 ```
 
-##### 8. Habilitar el método de autenticación (si no lo hiciste antes)
+#### 8. Habilitar el método de autenticación (si no lo hiciste antes)
 
 ```bash
 vault auth enable kubernetes
