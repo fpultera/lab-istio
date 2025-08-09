@@ -146,7 +146,7 @@ vault write auth/kubernetes/role/my-role-hola-mundo \
     ttl=3000h
 
 vault write auth/kubernetes/role/my-role-hola-mundo-v2 \
-    bound_service_account_names=hola-mundo-v2-sa \
+    bound_service_account_names=hola-mundo-sa-v2 \
     bound_service_account_namespaces=hola-mundo-v2 \
     policies=my-policy-hola-mundo-v2 \
     ttl=3000h
