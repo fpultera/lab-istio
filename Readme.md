@@ -4,7 +4,7 @@ Este proyecto te guía para instalar Istio en Minikube usando ArgoCD, desplegar 
 
 ---
 
-## Requisitos
+#### Requisitos
 
 - Minikube instalado y corriendo.
 - `kubectl` configurado para tu cluster Minikube.
@@ -14,9 +14,9 @@ Este proyecto te guía para instalar Istio en Minikube usando ArgoCD, desplegar 
 ---
 
 
-## Instrucciones de instalación
+#### Instrucciones de instalación
 
-### 1. Instalar Istio con ArgoCD
+##### 1. Instalar Istio con ArgoCD
 
 - Abre una terminal y ejecuta:
 
@@ -34,7 +34,7 @@ Guarda esta contraseña, ya que la necesitarás para iniciar sesión.
 --------------------------------------------------------
 ```
 
-### 2. Levantar el túnel de Minikube para Istio
+##### 2. Levantar el túnel de Minikube para Istio
 
 - Abre una nueva terminal (no cierres la anterior) y ejecuta:
 
@@ -42,7 +42,7 @@ Guarda esta contraseña, ya que la necesitarás para iniciar sesión.
 minikube tunnel -p lab-istio
 ```
 
-### 3. Aplicar configuración de Istio
+##### 3. Aplicar configuración de Istio
 
 ```bash
 kubectl apply -f infra/istio.yaml
@@ -52,7 +52,7 @@ kubectl apply -f infra/istio.yaml
 
 - Si alguna app de isitio no sincroniza, deletea el pod.
 
-### 4. Obtener la IP externa del istio-ingressgateway
+##### 4. Obtener la IP externa del istio-ingressgateway
 
 - Ejecuta:
 
@@ -62,7 +62,7 @@ kubectl get svc -n istio-system
 
 - SI el tunnel no esta creado, el svc no va a levantar el cluster-ip
 
-### 5. Vault
+##### 5. Vault
 
 Para instalar vault en tu cluster de minikube, ejecuta:
 
@@ -72,7 +72,7 @@ Para instalar vault en tu cluster de minikube, ejecuta:
 ❯ kubectl apply -f apps/vault-storage.yaml
 ```
 
-### 6. Configurar /etc/hosts
+##### 6. Configurar /etc/hosts
 
 ```bash
 10.110.47.29 hola-mundo-final.local vault.local
@@ -86,32 +86,32 @@ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)   
 istio-ingressgateway   LoadBalancer   10.110.47.229   10.110.47.229   15021:32375/TCP,80:31856/TCP,443:31773/TCP   3m21s
 ```
 
-### 7. instala el cliente de vault en tu notebookubectllocal. Pacman, dpkg, apt, apk, lo que prefieras.
+##### 7. instala el cliente de vault en tu notebookubectllocal. Pacman, dpkg, apt, apk, lo que prefieras.
 
 ```bash
 export VAULT_ADDR='http://vault.local'
 vault login root
 ```
 
-### 8. Habilitar el método de autenticación (si no lo hiciste antes)
+##### 8. Habilitar el método de autenticación (si no lo hiciste antes)
 
 ```bash
 vault auth enable kubernetes
 ```
 
-## Obtener el token
+#### Obtener el token
 
 ```bash
 export VAULT_SA_TOKEN=$(kubectl get secret vault-token -n vault -o jsonpath="{.data.token}" | base64 --decode)
 ```
 
-## Obtener el certificado CA del ServiceAccount
+#### Obtener el certificado CA del ServiceAccount
 
 ```bash
 export VAULT_CA_CERT=$(kubectl get secret vault-token -n vault -o jsonpath="{.data['ca\.crt']}" | base64 --decode)
 ```
 
-## Configurar el backend
+#### Configurar el backend
 
 ```bash
 vault write auth/kubernetes/config \
@@ -120,7 +120,7 @@ vault write auth/kubernetes/config \
     kubernetes_ca_cert="$VAULT_CA_CERT"
 ```
 
-## Crear una política de Vault para hola-mundo y hola-mundo-v2:
+#### Crear una política de Vault para hola-mundo y hola-mundo-v2:
 
 ```bash
 vault policy write my-policy-hola-mundo - <<EOF
@@ -136,7 +136,7 @@ path "secret/data/hola-mundo-v2/config" {
 EOF
 ```
 
-## Crear y vincular el rol de Kubernetes para hola-mundo y hola-mundo-v2:
+#### Crear y vincular el rol de Kubernetes para hola-mundo y hola-mundo-v2:
 
 ```bash
 vault write auth/kubernetes/role/my-role-hola-mundo \
@@ -152,21 +152,21 @@ vault write auth/kubernetes/role/my-role-hola-mundo-v2 \
     ttl=3000h
 ```
 
-## crear un vault secret:
+#### crear un vault secret:
 
 ```bash
 vault kv put secret/hola-mundo/config url=asd.local
 vault kv put secret/hola-mundo-v2/config url=asddgf.local
 ```
 
-### 9. Desplegar aplicaciones de ejemplo
+##### 9. Desplegar aplicaciones de ejemplo
 
 ```bash
 kubectl apply -f apps/hola-mundo.yaml
 kubectl apply -f apps/hola-mundo-v2.yaml
 ```
 
-## como ver el secret:
+#### como ver el secret:
 
 ```bash
 hola-mundo
@@ -180,7 +180,7 @@ cd /mnt/secrets-store/secret/data/hola-mundo-v2
 cat config
 ```
 
-## Si entras con bash podes instalar el jq.
+#### Si entras con bash podes instalar el jq.
 
 ```bash
 apt update
@@ -189,7 +189,7 @@ apt install jq -y
 cat /mnt/secrets-store/secret/data/hola-mundo-v2/config |jq .
 ```
 
-### 10. Probar balanceo con Istio
+##### 10. Probar balanceo con Istio
 
 - Para balanceo basado en headers HTTP:
 
