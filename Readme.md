@@ -67,9 +67,9 @@ kubectl get svc -n istio-system
 Para instalar vault en tu cluster de minikube, ejecuta:
 
 ```bash
-❯ kubectlapply -f apps/vault.yaml
-❯ kubectlapply -f apps/vault-domain.yaml
-❯ kubectlapply -f apps/vault-storage.yaml
+❯ kubectl apply -f apps/vault.yaml
+❯ kubectl apply -f apps/vault-domain.yaml
+❯ kubectl apply -f apps/vault-storage.yaml
 ```
 
 ### 6. Configurar /etc/hosts
