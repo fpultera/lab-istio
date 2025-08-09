@@ -21,7 +21,16 @@ spec:
           volumeMounts:
             - name: html
               mountPath: /usr/share/nginx/html
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets"
+              readOnly: true
       volumes:
         - name: html
           configMap:
             name: hola-mundo-html
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "vault-hola-mundo"
