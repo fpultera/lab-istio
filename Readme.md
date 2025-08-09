@@ -161,6 +161,35 @@ curl "http://hola-mundo-final.local/?Id=5678"
 </html>
 ```
 
+- Balanceo por User Parameter ID si aplicaste el yaml hola-mundo-final-userparameterid.yaml
+
+```bash
+curl -H "http://hola-mundo-final.local/"
+# Respuesta default v1
+curl -H "user-session-id: v1" "http://hola-mundo-final.local/"
+# Respuestas alternadas entre Hola Mundo
+curl -H "user-session-id: v2" "http://hola-mundo-final.local/"
+# Respuestas alternadas entre Hola Mundo v2
+```
+
+- Ejemplo de respuesta:
+
+```bash
+❯ curl -H "user-session-id: v1" "http://hola-mundo-final.local/"
+<html>
+  <body>
+    <h1>Hola Mundo desde Istio 🚀</h1>
+  </body>
+</html>
+
+❯ curl -H "user-session-id: v2" "http://hola-mundo-final.local/"
+<html>
+  <body>
+    <h1>Hola Mundo v2 desde Istio 🚀</h1>
+  </body>
+</html>
+```
+
 Notas importantes:
 
 - No cierres las terminales donde ejecutaste minikube tunnel ni el script de instalación, ya que mantienen servicios activos.
