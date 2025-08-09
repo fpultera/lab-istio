@@ -67,9 +67,9 @@ kubectl get svc -n istio-system
 Para instalar vault en tu cluster de minikube, ejecuta:
 
 ```bash
-❯ k apply -f apps/vault.yaml
-❯ k apply -f apps/vault-domain.yaml
-❯ k apply -f apps/vault-storage.yaml
+❯ kubectlapply -f apps/vault.yaml
+❯ kubectlapply -f apps/vault-domain.yaml
+❯ kubectlapply -f apps/vault-storage.yaml
 ```
 
 ### 6. Configurar /etc/hosts
@@ -86,7 +86,7 @@ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)   
 istio-ingressgateway   LoadBalancer   10.110.47.229   10.110.47.229   15021:32375/TCP,80:31856/TCP,443:31773/TCP   3m21s
 ```
 
-### 7. instala el cliente de vault en tu notebook local. Pacman, dpkg, apt, apk, lo que prefieras.
+### 7. instala el cliente de vault en tu notebookubectllocal. Pacman, dpkg, apt, apk, lo que prefieras.
 
 ```bash
 export VAULT_ADDR='http://vault.local'
@@ -162,9 +162,25 @@ vault kv put secret/hola-mundo-v2/config url=asddgf.local
 ## como ver el secret:
 
 ```bash
+hola-mundo
 kubectl exec -it <nombre-del-pod> -n <namespace> -- /bin/sh
 cd /mnt/secrets-store/secret/data/hola-mundo
 cat config
+
+hola-mundo-v2
+kubectl exec -it <nombre-del-pod> -n <namespace> -- /bin/sh
+cd /mnt/secrets-store/secret/data/hola-mundo-v2
+cat config
+```
+
+## Si esntras con bash podes instalar el jq.
+
+```bash
+apt pdate
+apt update
+apt install jq -y
+
+cat /mnt/secrets-store/secret/data/hola-mundo-v2/config |jq .
 ```
 
 ### 4. Desplegar aplicaciones de ejemplo
