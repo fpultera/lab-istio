@@ -90,9 +90,25 @@ istio-ingressgateway   LoadBalancer   10.110.47.229   10.110.47.229   15021:3237
 
 ```bash
 10.110.47.29 hola-mundo-final.local
+
 ```
 
-### 8. Pruebas con curl
+### 8. Vault
+
+Para instalar vault en tu cluster de minikube, ejecuta:
+
+```bash
+❯ k apply -f apps/vault.yaml
+❯ k apply -f apps/vault-domain.yaml
+```
+
+### 9. Configurar /etc/hosts
+
+```bash
+10.110.47.229 hola-mundo-final.local vault.local
+```
+
+### 10. Pruebas con curl
 - Balanceo por Headers si aplicaste el yaml hola-mundo-final-headers.yaml
 
 ```bash
@@ -188,21 +204,6 @@ curl -H "user-session-id: v2" "http://hola-mundo-final.local/"
     <h1>Hola Mundo v2 desde Istio 🚀</h1>
   </body>
 </html>
-```
-
-### 9. Vault
-
-Para instalar vault en tu cluster de minikube, ejecuta:
-
-```bash
-❯ k apply -f apps/vault.yaml
-❯ k apply -f apps/vault-domain.yaml
-```
-
-### 10. Configurar /etc/hosts
-
-```bash
-10.110.47.229 hola-mundo-final.local vault.local
 ```
 
 Una ves 
