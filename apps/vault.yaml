@@ -14,6 +14,11 @@ spec:
         server:
           standalone:
             enabled: true
+          dev:
+            enabled: true
+          service:
+            type: NodePort
+            nodePort: 30200
   destination:
     server: https://kubernetes.default.svc
     namespace: vault
