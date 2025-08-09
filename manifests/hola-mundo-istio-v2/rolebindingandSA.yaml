@@ -1,4 +1,3 @@
-# vault-auth-setup.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
