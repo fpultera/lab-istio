@@ -190,6 +190,23 @@ curl -H "user-session-id: v2" "http://hola-mundo-final.local/"
 </html>
 ```
 
+### 9. Vault
+
+Para instalar vault en tu cluster de minikube, ejecuta:
+
+```bash
+❯ k apply -f apps/vault.yaml
+❯ k apply -f apps/vault-domain.yaml
+```
+
+### 10. Configurar /etc/hosts
+
+```bash
+10.110.47.229 hola-mundo-final.local vault.local
+```
+
+Una ves 
+
 Notas importantes:
 
 - No cierres las terminales donde ejecutaste minikube tunnel ni el script de instalación, ya que mantienen servicios activos.
