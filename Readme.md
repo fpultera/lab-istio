@@ -108,6 +108,50 @@ Para instalar vault en tu cluster de minikube, ejecuta:
 10.110.47.229 hola-mundo-final.local vault.local
 ```
 
+### 9a. Ingresar al pod de vault
+
+```bash
+❯ k exec -it vault-0 -n vault -- sh
+```
+
+- Listar los metodos de auth
+
+```bash
+/ $ vault auth list
+Path      Type     Accessor               Description                Version
+----      ----     --------               -----------                -------
+token/    token    auth_token_bf06b7b3    token based credentials    n/a
+```
+
+### 9b. Ingresar al pod de vault
+
+- Habilitar Kubernetes
+
+```bash
+/ $ vault auth enable kubernetes
+Success! Enabled kubernetes auth method at: kubernetes/
+```
+
+### 9c. Listar nuevamente para chequear que este kubernetes habilitado.
+
+```bash
+/ $ vault auth list
+Path           Type          Accessor                    Description                Version
+----           ----          --------                    -----------                -------
+kubernetes/    kubernetes    auth_kubernetes_c49dcf0e    n/a                        n/a
+token/         token         auth_token_bf06b7b3         token based credentials    n/a
+```
+
+### 9d. Crear politica de acceso
+
+```bash
+/ $             vault write auth/kubernetes/role/my-role-hola-mundo \
+>               bound_service_account_names=default \
+>               bound_service_account_namespaces=hola-mundo \
+>               policies=hola-mundo-policy \
+>               ttl=24h
+```
+
 ### 10. Pruebas con curl
 - Balanceo por Headers si aplicaste el yaml hola-mundo-final-headers.yaml
 
