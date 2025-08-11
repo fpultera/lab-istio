@@ -266,9 +266,9 @@ kubectl delete ns hola-mundo-final-weight
 
 ```bash
 kubectl apply -f apps/hola-mundo-final-queryparamenter.yaml
-curl "http://hola-mundo-final.local/?Id=1234"
+curl -i "http://hola-mundo-final.local/?Id=1234"
 # Respuestas alternadas entre Hola Mundo
-curl "http://hola-mundo-final.local/?Id=5678"
+curl -i "http://hola-mundo-final.local/?Id=5678"
 # Respuestas alternadas entre Hola Mundo v2
 ```
 
