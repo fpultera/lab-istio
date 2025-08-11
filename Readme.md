@@ -74,6 +74,8 @@ Para instalar vault en tu cluster de minikube, ejecuta:
 
 #### 6. Configurar /etc/hosts
 
+- Luego de obtener la IP del svc del paso 4
+
 ```bash
 10.110.47.29 hola-mundo-final.local vault.local
 
