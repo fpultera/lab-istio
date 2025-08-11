@@ -34,6 +34,10 @@ spec:
             host: hola-mundo.hola-mundo.svc.cluster.local
             port:
               number: 80
+      headers:
+        response:
+          add:
+            X-Version-Served: "v1"
     - match:
         - queryParams:
             Id:
@@ -43,8 +47,16 @@ spec:
             host: hola-mundo-v2.hola-mundo-v2.svc.cluster.local
             port:
               number: 80
+      headers:
+        response:
+          add:
+            X-Version-Served: "v2"
     - route:  # fallback
         - destination:
             host: hola-mundo.hola-mundo.svc.cluster.local
             port:
               number: 80
+      headers:
+        response:
+          add:
+            X-Version-Served: "default"
