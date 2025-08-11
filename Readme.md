@@ -67,9 +67,9 @@ kubectl get svc -n istio-system
 Para instalar vault en tu cluster de minikube, ejecuta:
 
 ```bash
-❯ kubectl apply -f apps/vault.yaml
-❯ kubectl apply -f apps/vault-domain.yaml
-❯ kubectl apply -f apps/vault-storage.yaml
+kubectl apply -f apps/vault.yaml
+kubectl apply -f apps/vault-domain.yaml
+kubectl apply -f apps/vault-storage.yaml
 ```
 
 #### 6. Configurar /etc/hosts
@@ -130,7 +130,9 @@ path "secret/data/hola-mundo/config" {
   capabilities = ["read"]
 }
 EOF
+```
 
+```bash
 vault policy write my-policy-hola-mundo-v2 - <<EOF
 path "secret/data/hola-mundo-v2/config" {
   capabilities = ["read"]
@@ -146,7 +148,9 @@ vault write auth/kubernetes/role/my-role-hola-mundo \
     bound_service_account_namespaces=hola-mundo \
     policies=my-policy-hola-mundo \
     ttl=3000h
+```
 
+```bash
 vault write auth/kubernetes/role/my-role-hola-mundo-v2 \
     bound_service_account_names=hola-mundo-sa-v2 \
     bound_service_account_namespaces=hola-mundo-v2 \
@@ -175,7 +179,8 @@ hola-mundo
 kubectl exec -it <nombre-del-pod> -n <namespace> -- /bin/sh
 cd /mnt/secrets-store/secret/data/hola-mundo
 cat config
-
+```
+```bash
 hola-mundo-v2
 kubectl exec -it <nombre-del-pod> -n <namespace> -- /bin/sh
 cd /mnt/secrets-store/secret/data/hola-mundo-v2
@@ -208,7 +213,9 @@ curl -H "x-version-app: v2" hola-mundo-final.local
     <h1>Hola Mundo v2 desde Istio 🚀</h1>
   </body>
 </html>
+```
 
+```bash
 curl -H "x-version-app: v1" hola-mundo-final.local
 <html>
   <body>
@@ -239,7 +246,9 @@ curl hola-mundo-final.local
     <h1>Hola Mundo v2 desde Istio 🚀</h1>
   </body>
 </html>
+```
 
+```bash
 <html>
   <body>
     <h1>Hola Mundo desde Istio 🚀</h1>
@@ -253,10 +262,10 @@ curl hola-mundo-final.local
 kubectl delete ns hola-mundo-final-weight
 ```
 
-- Balanceo por Peso si aplicaste el yaml hola-mundo-final-queryparameter.yaml
+- Balanceo por Peso si aplicaste el yaml apps/hola-mundo-final-queryparamenter.yaml
 
 ```bash
-kubectl apply -f apps/hola-mundo-final-queryparameter.yaml
+kubectl apply -f apps/hola-mundo-final-queryparamenter.yaml
 curl "http://hola-mundo-final.local/?Id=1234"
 # Respuestas alternadas entre Hola Mundo
 curl "http://hola-mundo-final.local/?Id=5678"
@@ -266,17 +275,41 @@ curl "http://hola-mundo-final.local/?Id=5678"
 - Ejemplo de respuesta:
 
 ```bash
-❯ curl "http://hola-mundo-final.local/?Id=1234"
-<html>
-  <body>
-    <h1>Hola Mundo desde Istio 🚀</h1>
-  </body>
-</html>
+❯ curl -i "http://hola-mundo-final.local?Id=5678"
+HTTP/1.1 200 OK
+server: istio-envoy
+date: Mon, 11 Aug 2025 18:52:16 GMT
+content-type: text/html
+content-length: 78
+last-modified: Mon, 11 Aug 2025 18:51:13 GMT
+etag: "689a3ba1-4e"
+accept-ranges: bytes
+x-envoy-upstream-service-time: 1
+x-version-served: v2
 
-❯ curl "http://hola-mundo-final.local/?Id=5678"
 <html>
   <body>
     <h1>Hola Mundo v2 desde Istio 🚀</h1>
+  </body>
+</html>
+```
+
+```bash
+❯ curl -i "http://hola-mundo-final.local?Id=1234"
+HTTP/1.1 200 OK
+server: istio-envoy
+date: Mon, 11 Aug 2025 18:52:25 GMT
+content-type: text/html
+content-length: 75
+last-modified: Mon, 11 Aug 2025 18:51:09 GMT
+etag: "689a3b9d-4b"
+accept-ranges: bytes
+x-envoy-upstream-service-time: 0
+x-version-served: v1
+
+<html>
+  <body>
+    <h1>Hola Mundo desde Istio 🚀</h1>
   </body>
 </html>
 ```
