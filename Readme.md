@@ -226,6 +226,7 @@ kubectl delete ns hola-mundo-final-headers
 - Balanceo por Peso si aplicaste el yaml hola-mundo-final-weight.yaml
 
 ```bash
+kubectl apply -f apps/hola-mundo-final-weight.yaml
 curl hola-mundo-final.local
 # Respuestas alternadas entre Hola Mundo v1 y v2
 ```
@@ -255,6 +256,7 @@ kubectl delete ns hola-mundo-final-weight
 - Balanceo por Peso si aplicaste el yaml hola-mundo-final-queryparameter.yaml
 
 ```bash
+kubectl apply -f apps/hola-mundo-final-queryparameter.yaml
 curl "http://hola-mundo-final.local/?Id=1234"
 # Respuestas alternadas entre Hola Mundo
 curl "http://hola-mundo-final.local/?Id=5678"
@@ -288,6 +290,7 @@ kubectl delete ns hola-mundo-final-queryparameter
 - Balanceo por User Parameter ID si aplicaste el yaml hola-mundo-final-userparameterid.yaml
 
 ```bash
+kubectl apply -g apps/hola-mundo-final-userparameterid.yaml
 curl -H "http://hola-mundo-final.local/"
 # Respuesta default v1
 curl -H "user-session-id: v1" "http://hola-mundo-final.local/"
